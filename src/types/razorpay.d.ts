@@ -1,3 +1,19 @@
+export {};
+
+declare module "razorpay" {
+  export default class Razorpay {
+    constructor(options: { key_id: string; key_secret: string });
+    orders: {
+      create(options: {
+        amount: number;
+        currency: string;
+        receipt?: string;
+        notes?: Record<string, unknown>;
+      }): Promise<Record<string, unknown>>;
+    };
+  }
+}
+
 interface RazorpayOptions {
   key: string;
   amount: number | string;
@@ -17,11 +33,12 @@ interface RazorpayOptions {
   };
 }
 
-class Razorpay {
-  constructor(options: RazorpayOptions);
-  open(): void;
-}
-
-interface Window {
-  Razorpay: typeof Razorpay;
+declare global {
+  interface Window {
+    Razorpay: {
+      new (options: RazorpayOptions): {
+        open(): void;
+      };
+    };
+  }
 }

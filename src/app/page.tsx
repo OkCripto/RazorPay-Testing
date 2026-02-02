@@ -4,13 +4,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreditCard, IndianRupee, ShieldCheck, Zap } from "lucide-react";
 
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
-
 const AMOUNTS = [100, 500, 1000];
+
+interface RazorpaySuccessResponse {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}
 
 export default function Home() {
   const [selectedAmount, setSelectedAmount] = useState<number | "custom">(100);
@@ -42,14 +42,14 @@ export default function Home() {
 
       // 2. Open Razorpay Checkout
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Use public key for frontend
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!, 
         amount: order.amount,
         currency: order.currency,
         name: "Razorpay Demo App",
         description: "Test Payment Transaction",
         image: "https://nextjs.org/icons/next.svg",
         order_id: order.id,
-        handler: async function (response: any) {
+        handler: async function (response: RazorpaySuccessResponse) {
           // 3. Verify payment on server
           const verifyRes = await fetch("/api/razorpay/verify", {
             method: "POST",
