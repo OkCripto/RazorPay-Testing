@@ -1,5 +1,7 @@
 # Razorpay Integration Demo (Next.js + Tailwind CSS)
 
+### 🔗 [Test the App on Vercel](https://razor-pay-testing.vercel.app)
+
 A minimal, state-of-the-art dark-themed application to test Razorpay payment gateway integration.
 
 ## Features
